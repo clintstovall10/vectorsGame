@@ -8,6 +8,7 @@ import java.util.Scanner;
 		Computer computer;
 		int score;
 		int rounds;
+		int currentTurn = 0;
 
 
 	public Game() {
@@ -24,46 +25,45 @@ import java.util.Scanner;
 		this.board = new Board();
 	}
 
-	public void startGame() {
-
-
-	}
-
-	public void endGame() {
-
-
-	}
-
 	public void getInput() {
+		boolean running = false;
 		Scanner scan = new Scanner(System.in);
-		String userInput = scan.nextLine();
-		String [] split = userInput.split(",") ;
-		int row = Integer.parseInt(split[0]);
-		int col = Integer.parseInt(split[1]);
-
-		while((row < 0 || col < 0 ) || (row > 7 || col > 7 )) {
-
-			System.out.println("this is not a valid move");
-			userInput = scan.nextLine();
-
-		}
-		if (this.board.getMatrix(row, col) == "| o |") {
+		
+		while(!running) {
+			System.out.printf("Player(%s) Turn: %d (Row Col): ", this.player.getName(), 
+																 this.currentTurn);
+			String userInput = scan.nextLine();
+			String [] split = userInput.split(" ") ;
+			int row = Integer.parseInt(split[0]);
+			int col = Integer.parseInt(split[1]);
 			
-			this.board.setMatrix(row, col);
-			System.out.println("this is a valid move");
-
-		}else {
-
-			System.out.println("this is not a valid move");
-
+			if (row >= 0&& row <= 7 && col>=0 && col<=7 && 
+					this.board.getMatrix(row, col).equals("| o")) {
+				this.board.setMatrix(row, col);
+				running = true;
+			}
+			
 		}
-
 	}
 
 	public void showBoard() {
 
-		this.board.show();
+		this.board.show(this.currentTurn, this.rounds, this.player.getScore());
 
+	}
+	public void scoreRound() {
+		player.resetScore();
+		player.addRound(board.scoreHorizontal("| X"));
+		player.addRound(board.scoreVertical("| X"));
+	}
+	public int getRounds() {
+		return this.rounds;
+	}
+	public void getNextTurn() {
+		this.currentTurn++;
+	}
+	public int getCurrentTurn() {
+		return this.currentTurn;
 	}
 	
 }

@@ -15,6 +15,18 @@ public class Player {
 		this.name = name;
 
 		}
+	public String getName() {
+		return this.name;
+	}
+	public int getScore() {
+		return this.score;
+	}
+	public void resetScore() {
+		this.score = 0;
+	}
+	public void addRound(int points) {
+		this.score += points;
+	}
 
 }
 	
