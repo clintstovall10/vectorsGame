@@ -1,5 +1,6 @@
 package myGame;
 
+import java.util.Random;
 import java.util.Scanner;
 
 	public class Game {
@@ -23,11 +24,14 @@ import java.util.Scanner;
 		this.rounds = rounds;
 		this.player = new Player(name);
 		this.board = new Board();
+		this.computer = new Computer();
 	}
 
 	public void getInput() {
+		Random rand = new Random();
 		boolean running = false;
 		Scanner scan = new Scanner(System.in);
+		boolean computerRunning = false;
 		
 		while(!running) {
 			System.out.printf("Player(%s) Turn: %d (Row Col): ", this.player.getName(), 
@@ -44,17 +48,34 @@ import java.util.Scanner;
 			}
 			
 		}
+		while(!computerRunning) {
+			int row = rand.nextInt(8);
+			int col = rand.nextInt(8);
+			if (this.board.getMatrix(row, col).equals("| o")) {
+				this.board.setCScore(row, col);
+				computerRunning = true;
+			}
+		
+		}
 	}
 
 	public void showBoard() {
 
-		this.board.show(this.currentTurn, this.rounds, this.player.getScore());
+		this.board.show(this.currentTurn, this.rounds, this.player.getScore(), this.computer.getScore()
+						, this.player.getLastScore(), this.computer.getLastScore());
 
 	}
 	public void scoreRound() {
+		player.setLastScore(player.getScore());
+		computer.setLastScore(computer.getScore());
 		player.resetScore();
+		computer.resetScore();
 		player.addRound(board.scoreHorizontal("| X"));
 		player.addRound(board.scoreVertical("| X"));
+		player.addRound(board.scoreDiagonal ("| X"));
+		computer.addRound(board.scoreHorizontal("| C"));
+		computer.addRound(board.scoreVertical("| C"));
+		computer.addRound(board.scoreDiagonal ("| C"));
 	}
 	public int getRounds() {
 		return this.rounds;

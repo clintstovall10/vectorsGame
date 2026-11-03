@@ -4,6 +4,7 @@ public class Player {
 	
 	String name;
 	int score;
+	int lastScore;
 		
 	public Player() {
 		this.name = "MegaMind";
@@ -26,6 +27,12 @@ public class Player {
 	}
 	public void addRound(int points) {
 		this.score += points;
+	}
+	public void setLastScore(int x) {
+		this.lastScore = x;
+	}
+	public int getLastScore() {
+		return this.lastScore;
 	}
 
 }

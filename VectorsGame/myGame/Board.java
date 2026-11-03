@@ -21,12 +21,16 @@ package myGame;
 		public void setMatrix (int row, int col ) {
 			matrix [row][col] = "| X";
 		}
+		public void setCScore (int row, int col ) {
+			matrix [row][col] = "| C";
+		}
 
 		public String getMatrix (int row, int col) {
 			return this.matrix[row][col];
 		}
 
-		public void show(int currentTurn, int totalRounds, int score) {
+		public void show(int currentTurn, int totalRounds, int score, int computerScore, int playerLastScore, 
+																						int computerLastScore) {
 			int num = 0;
 			
 			System.out.println(" **************************************");
@@ -34,7 +38,8 @@ package myGame;
 			System.out.println(" **************************************");
 			System.out.println(" - High Score: ");
 			System.out.println(" **************************************");
-			System.out.printf(" - Player Score: %d\n", score);
+			System.out.printf(" - Player Score:   %d Last Round: %d\n - Computer Score: %d Last Round: %d\n", 
+										score, playerLastScore, computerScore, computerLastScore);
 			System.out.println(" **************************************");
 			System.out.printf(" -Turn %d of %d \n", currentTurn, totalRounds);
 			System.out.println("   0   1   2   3   4   5   6   7");
@@ -95,11 +100,63 @@ package myGame;
 			}
 			return total;
 		}
+		public int scoreDiagonal(String token) {
+			int total =0;
+			int size = matrix.length;
+			for (int col = 0; col <size; col++) {
+				String[]line = new String[size-col];
+				for (int row = 0; row < line.length; row++) {
+					line[row] = matrix[row][row+col];
+				}
+				total+=scoreLine(line, token);
+			}
+			for(int row = 1; row < size; row++) {
+				String[]line = new String[size-row];
+				for(int col = 0; col < line.length; col++) {
+					line[col] = matrix[col][col+row];
+				}
+				total+=scoreLine(line, token);
+			}
+			for (int col = 0; col <size; col++) {
+				String[]line = new String[col+1];
+				for (int row = 0; row < line.length; row++) {
+					line[row] = matrix[row][col-row];
+				}
+				total+=scoreLine(line, token);
+			}
+			for(int row = 1; row < size; row++) {
+				String[]line = new String[size-row];
+				for(int col = 0; col < line.length; col++) {
+					line[col] = matrix[row+col][size-1-col];
+				}
+				total+=scoreLine(line, token);
+			}
+			return total;
+		}
 		public int points(int count) {
 			if (count ==3 ) return 4;
 			if (count ==4 ) return 6;
 			if (count ==5 ) return 10;
 			return 0;
+		}
+		public int scoreLine(String[]line, String token) {
+			int total = 0;
+			int end = 0;
+			for (int i =0; i < line.length; i++) {
+				if(line[i].equals(token)) {
+					end++;
+					if(end==5) {
+						total+=points(end);
+						end=0;
+					}
+				}else {
+					total+=points(end);
+					end =0;
+				}
+			}
+			total+=points(end);
+			return total;
+			
 		}
 	
 	
