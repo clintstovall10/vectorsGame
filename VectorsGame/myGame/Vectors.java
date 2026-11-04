@@ -26,10 +26,14 @@ public class Vectors {
 		
 		String name = scan.nextLine();
 		
-		Game game = new Game(20, name);
+		System.out.println("Please number of rounds:");
+		int rounds = scan.nextInt();
+		
+		Game game = new Game(rounds, name);
 		while ( game.getCurrentTurn() < game.getRounds()) {
 			game.getInput();
 			game.scoreRound();
+			game.sortHighScore();
 			game.getNextTurn();
 			game.showBoard();
 		}

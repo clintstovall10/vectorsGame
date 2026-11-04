@@ -24,6 +24,9 @@ public class Computer {
 	public int getLastScore() {
 		return this.lastScore;
 	}
+	public String getName() {
+		return this.name;
+	}
 
 
 }

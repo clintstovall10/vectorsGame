@@ -1,6 +1,8 @@
 package myGame;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
@@ -13,6 +15,8 @@ import java.util.Scanner;
 		int score;
 		int rounds;
 		int currentTurn = 0;
+		HighScore[]highscore;
+		HighScore best;
 
 
 	public Game() {
@@ -65,7 +69,7 @@ import java.util.Scanner;
 	public void showBoard() {
 
 		this.board.show(this.currentTurn, this.rounds, this.player.getScore(), this.computer.getScore()
-						, this.player.getLastScore(), this.computer.getLastScore());
+						, this.player.getLastScore(), this.computer.getLastScore(), this.best);
 
 	}
 	public void scoreRound() throws IOException {
@@ -80,7 +84,39 @@ import java.util.Scanner;
 		computer.addRound(board.scoreHorizontal("| C"));
 		computer.addRound(board.scoreVertical("| C"));
 		computer.addRound(board.scoreDiagonal ("| C"));
-		bw.write("Hi");
+		bw.write("" + player.getScore() + "," + player.getName());
+		bw.newLine();
+		bw.write("" + computer.getScore() + "," + computer.getName());
+		bw.newLine();
+		bw.close();
+	}
+	public void sortHighScore() throws IOException {
+		BufferedReader br = new BufferedReader( new FileReader("HighScore.txt"));
+		int count = 0;
+		while(br.readLine()!= null) {
+			count++;
+		}
+		br.close();
+		
+		this.highscore = new HighScore[count];
+		br = new BufferedReader( new FileReader("HighScore.txt"));
+		for (int i = 0; i < count; i++) {
+			String line = br.readLine();
+			String[]arr = line.split(",");
+			int score = Integer.parseInt(arr[0]);
+			String name = arr[1];
+			highscore[i] = new HighScore(score , name);
+		}
+		
+		int max = 0;
+		
+		for (int j =1; j < count; j++) {
+			if (highscore[j].getScore()> highscore[max].getScore()) {
+				max = j;
+			}
+		}
+		this.best = highscore[max];
+		br.close();
 	}
 	public int getRounds() {
 		return this.rounds;

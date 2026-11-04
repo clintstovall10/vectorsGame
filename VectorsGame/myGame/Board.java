@@ -30,13 +30,13 @@ package myGame;
 		}
 
 		public void show(int currentTurn, int totalRounds, int score, int computerScore, int playerLastScore, 
-																						int computerLastScore) {
+																						int computerLastScore, HighScore best) {
 			int num = 0;
 			
 			System.out.println(" **************************************");
 			System.out.println(" - V E C T O R S");
 			System.out.println(" **************************************");
-			System.out.println(" - High Score: ");
+			System.out.printf(" - High Score: %s - %d\n", best.getName(), best.getScore());
 			System.out.println(" **************************************");
 			System.out.printf(" - Player Score:   %d Last Round: %d\n - Computer Score: %d Last Round: %d\n", 
 										score, playerLastScore, computerScore, computerLastScore);
