@@ -1,5 +1,8 @@
 package myGame;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -65,7 +68,8 @@ import java.util.Scanner;
 						, this.player.getLastScore(), this.computer.getLastScore());
 
 	}
-	public void scoreRound() {
+	public void scoreRound() throws IOException {
+		BufferedWriter bw = new BufferedWriter(new FileWriter("HighScore.txt", true));
 		player.setLastScore(player.getScore());
 		computer.setLastScore(computer.getScore());
 		player.resetScore();
@@ -76,6 +80,7 @@ import java.util.Scanner;
 		computer.addRound(board.scoreHorizontal("| C"));
 		computer.addRound(board.scoreVertical("| C"));
 		computer.addRound(board.scoreDiagonal ("| C"));
+		bw.write("Hi");
 	}
 	public int getRounds() {
 		return this.rounds;

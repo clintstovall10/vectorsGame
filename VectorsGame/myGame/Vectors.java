@@ -1,10 +1,11 @@
 package myGame;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Vectors {
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		Scanner scan = new Scanner(System.in);
 		
 		System.out.println("=================================");
