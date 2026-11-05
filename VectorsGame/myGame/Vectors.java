@@ -33,7 +33,7 @@ public class Vectors {
 		while ( game.getCurrentTurn() < game.getRounds()) {
 			game.getInput();
 			game.scoreRound();
-			game.sortHighScore();
+		//	game.sortHighScore();
 			game.getNextTurn();
 			game.showBoard();
 		}

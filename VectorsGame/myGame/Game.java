@@ -48,7 +48,7 @@ import java.util.Scanner;
 			int row = Integer.parseInt(split[0]);
 			int col = Integer.parseInt(split[1]);
 			
-			if (row >= 0&& row <= 7 && col>=0 && col<=7 && 
+			if (row >= 0 && row <= 7 && col>=0 && col<=7 && 
 					this.board.getMatrix(row, col).equals("| o")) {
 				this.board.setMatrix(row, col);
 				running = true;
@@ -89,15 +89,20 @@ import java.util.Scanner;
 		bw.write("" + computer.getScore() + "," + computer.getName());
 		bw.newLine();
 		bw.close();
+		sortHighScore();
 	}
 	public void sortHighScore() throws IOException {
 		BufferedReader br = new BufferedReader( new FileReader("HighScore.txt"));
 		int count = 0;
+		
 		while(br.readLine()!= null) {
 			count++;
 		}
 		br.close();
-		
+		if(count == 0) {
+			this.best = new HighScore(0, "None");
+			return;
+		}
 		this.highscore = new HighScore[count];
 		br = new BufferedReader( new FileReader("HighScore.txt"));
 		for (int i = 0; i < count; i++) {
